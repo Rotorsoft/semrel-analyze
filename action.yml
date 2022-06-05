@@ -40,9 +40,7 @@ runs:
         DIRECTORY: ${{ inputs.directory }}
         GITURL: ${{ inputs.git-url }}
       run: |
-        pwd
-        ls
-        npx zx analyze.mjs | tail -4 | (
+        npx zx $GITHUB_ACTION_PATH/analyze.mjs | tail -4 | (
           read -r l1; read -r l2; read -r l3; read -r l4;
           echo "::set-output name=last-tag::${l1}";
           echo "::set-output name=next-tag::${l2}";
