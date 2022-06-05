@@ -3,13 +3,13 @@ const SEPARATOR = "-+-+-";
 const RULES = [
   {
     type: "patch",
-    prefix: ["fix", "perf", "refactor"]
+    prefix: ["fix", "perf", "refactor"],
   },
   { type: "minor", prefix: ["feat"] },
   {
     type: "major",
-    text: ["BREAKING CHANGE", "BREAKING CHANGES"]
-  }
+    text: ["BREAKING CHANGE", "BREAKING CHANGES"],
+  },
 ];
 
 $.noquote = async (...args) => {
@@ -51,8 +51,9 @@ const REQUIRED_ENV = ["PACKAGE", "DIRECTORY", "GITURL"];
   const commitsRange = lastTag
     ? `${(await $`git rev-list -1 ${lastTag}`).toString().trim()}..HEAD`
     : "HEAD";
+  const path = PACKAGE !== DIRECTORY ? DIRECTORY : "";
   const newCommits = (
-    await $.noquote`git log --format=${HEADER}%H${SEPARATOR}%s ${commitsRange} -- ${DIRECTORY}`
+    await $.noquote`git log --format=${HEADER}%H${SEPARATOR}%s ${commitsRange} -- ${path}`
   )
     .toString()
     .split(HEADER)
