@@ -35,6 +35,7 @@ runs:
       id: analyze
       shell: bash
       env:
+        npm_config_yes: true
         PACKAGE: ${{ inputs.package }}
         DIRECTORY: ${{ inputs.directory }}
         GITURL: ${{ inputs.git-url }}
