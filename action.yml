@@ -34,6 +34,10 @@ runs:
     - name: analyze ${{ inputs.package }}
       id: analyze
       shell: bash
+      env:
+        PACKAGE: ${{ inputs.package }}
+        DIRECTORY: ${{ inputs.directory }}
+        GITURL: ${{ inputs.git-url }}
       run: |
         npx zx ./analyze.mjs | tail -4 | (
           read -r l1; read -r l2; read -r l3; read -r l4;
