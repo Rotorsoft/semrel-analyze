@@ -41,6 +41,7 @@ runs:
         GITURL: ${{ inputs.git-url }}
       run: |
         pwd
+        ls
         npx zx analyze.mjs | tail -4 | (
           read -r l1; read -r l2; read -r l3; read -r l4;
           echo "::set-output name=last-tag::${l1}";
