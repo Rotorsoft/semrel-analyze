@@ -88,7 +88,7 @@ const REQUIRED_ENV = ["PACKAGE", "DIRECTORY", "GITURL"];
   const nextVersion =
     (nextReleaseType && bump(lastTag, nextReleaseType)) || "-";
   const nextTag = (nextReleaseType && `${PACKAGE}-v${nextVersion}`) || "-";
-  const releaseNotes =
+  const changeLog =
     (nextReleaseType &&
       `## [${new Date()
         .toISOString()
@@ -112,5 +112,5 @@ const REQUIRED_ENV = ["PACKAGE", "DIRECTORY", "GITURL"];
   console.log(lastTag);
   console.log(nextTag);
   console.log(nextVersion);
-  console.log(JSON.stringify(releaseNotes).slice(1, -1));
+  console.log(JSON.stringify(changeLog).slice(1, -1));
 })();
