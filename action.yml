@@ -1,14 +1,14 @@
-name: 'semrel-analyze'
-description: 'Analyzes conventional commits in repo to suggest next semantic version and tag relative to the last version tag'
+name: "semrel-analyze"
+description: "Analyzes conventional commits in repo to suggest next semantic version and tag relative to the last version tag"
 inputs:
   package:
-    description: 'The name of the package in the mono-repo (git repo)'
+    description: "The name of the package in the mono-repo (git repo)"
     required: true
   directory:
-    description: 'The path to the package.json in the mono-repo (e.g. libs/eventually)'
+    description: "The path to the package.json in the mono-repo (e.g. libs/eventually)"
     required: true
   git-url:
-    description: 'The url to the git repo'
+    description: "The url to the git repo"
     required: true
 outputs:
   last-tag:
@@ -30,7 +30,7 @@ runs:
       uses: actions/setup-node@v3
       with:
         node-version: 16.x
-          
+
     - name: analyze ${{ inputs.package }}
       id: analyze
       shell: bash
@@ -39,7 +39,8 @@ runs:
         DIRECTORY: ${{ inputs.directory }}
         GITURL: ${{ inputs.git-url }}
       run: |
-        npx zx ./analyze.mjs | tail -4 | (
+        pwd
+        npx zx analyze.mjs | tail -4 | (
           read -r l1; read -r l2; read -r l3; read -r l4;
           echo "::set-output name=last-tag::${l1}";
           echo "::set-output name=next-tag::${l2}";
