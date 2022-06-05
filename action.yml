@@ -1,0 +1,44 @@
+name: 'semrel-analyze'
+description: 'Analyzes conventional commits in repo to suggest next semantic version and tag relative to the last version tag'
+inputs:
+  package:
+    description: 'The name of the package in the mono-repo (git repo)'
+    required: true
+  directory:
+    description: 'The path to the package.json in the mono-repo (e.g. libs/eventually)'
+    required: true
+  git-url:
+    description: 'The url to the git repo'
+    required: true
+outputs:
+  last-tag:
+    description: "Last version tag found for input package"
+    value: ${{ steps.analyze.outputs.last-tag }}
+  next-tag:
+    description: "Next suggested version tag based on the conventional commits found since last tag or - when nothing found"
+    value: ${{ steps.analyze.outputs.next-tag }}
+  next-version:
+    description: "Next suggested semantic version based on the conventional commits found since last tag or - when nothing found"
+    value: ${{ steps.analyze.outputs.next-version }}
+  change-log:
+    description: "Log of conventional commits analyzed since last tag"
+    value: ${{ steps.analyze.outputs.change-log }}
+runs:
+  using: "composite"
+  steps:
+    - name: install node 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+          
+    - name: analyze ${{ inputs.package }}
+      id: analyze
+      shell: bash
+      run: |
+        npx zx ./analyze.mjs | tail -4 | (
+          read -r l1; read -r l2; read -r l3; read -r l4;
+          echo "::set-output name=last-tag::${l1}";
+          echo "::set-output name=next-tag::${l2}";
+          echo "::set-output name=next-version::${l3}";
+          echo "::set-output name=change-log::${l4}";
+        )
