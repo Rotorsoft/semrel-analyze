@@ -7,9 +7,6 @@ inputs:
   directory:
     description: "The path to the package.json in the mono-repo (e.g. libs/eventually)"
     required: true
-  git-url:
-    description: "The url to the git repo"
-    required: true
 outputs:
   last-tag:
     description: "Last version tag found for input package"
@@ -38,7 +35,7 @@ runs:
         npm_config_yes: true
         PACKAGE: ${{ inputs.package }}
         DIRECTORY: ${{ inputs.directory }}
-        GITURL: ${{ inputs.git-url }}
+        GITURL: "${{ github.server_url }}/${{ github.repository }}"
       run: |
         npx zx $GITHUB_ACTION_PATH/analyze.mjs | tail -4 | (
           read -r l1; read -r l2; read -r l3; read -r l4;
