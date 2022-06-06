@@ -65,7 +65,6 @@ jobs:
         with:
           package: "@scope/${{ matrix.workspace }}"
           directory: "workspace/${{ matrix.workspace }}"
-          git-url: "${{ github.server_url }}/${{ github.repository }}"
           
       - name: analysis
         run: |
