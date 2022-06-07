@@ -2,6 +2,22 @@
 
 GitHub action to analyze conventional commits in a mono-repo and suggest next semantic version and tag
 
+## Rules
+
+We use the following subset of conventional commit rules to decide when to bump the semantic version:
+
+* All rules are based on the commit short message and not the body
+
+* MAJOR: When the commit message (after prefix:) contains either `BREAKING CHANGE` or `BREAKING CHANGES`
+
+* MINOR: When the commit message prefix is `feat:`
+
+* PATCH: When the commit message prefix is `fix:` or `perf:` or `refactor:`
+
+The semantic analysis looks at **all semantic commits meeting the previous rules** that ocurred **after the latest semantic tag** for the given package
+
+Our semantic tags have this fixed format: `PACKAGE-vSEMVER`
+
 ## Usage
 
 This action was created to tackle Yarn2 mono-repos where individual workspace releases are required. It can also be used with regular repos in the basic format below.
