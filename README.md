@@ -44,7 +44,6 @@ jobs:
         with:
           package: 'chatbot'
           directory: 'chatbot'
-          git-url: "${{ github.server_url }}/${{ github.repository }}"
           
       - name: analysis
         run: |
