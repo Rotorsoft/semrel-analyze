@@ -89,22 +89,22 @@ const REQUIRED_ENV = ["PACKAGE", "DIRECTORY", "GITURL"];
   const nextVersion =
     (nextReleaseType && bump(lastTag, nextReleaseType)) || "-";
   const nextTag = (nextReleaseType && `${PACKAGE}-v${nextVersion}`) || "-";
+  const today = new Date().toISOString().slice(0, 10);
   const changeLog =
     (nextReleaseType &&
-      `## [${new Date()
-        .toISOString()
-        .slice(0, 10)}](${GITURL}/compare/${lastTag}...${nextTag})\n`.concat(
+      `#### ${today} [+/-](${GITURL}/compare/${lastTag}...${nextTag}) ${nextTag}\n`.concat(
         Object.keys(changes)
           .filter((key) => changes[key].length)
           .map((key) =>
-            `### ${key.toUpperCase()}\n`.concat(
-              changes[key]
-                .map(
-                  ({ sha, message }) =>
-                    `* [${sha.slice(0, 8)}](${GITURL}/commit/${sha}) ${message}`
-                )
-                .join("\n")
-            )
+            changes[key]
+              .map(
+                ({ sha, message }) =>
+                  `  - ${key.toUpperCase()} [${sha.slice(
+                    0,
+                    8
+                  )}](${GITURL}/commit/${sha}) ${message}`
+              )
+              .join("\n")
           )
           .join("\n")
       )) ||
