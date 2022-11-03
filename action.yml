@@ -39,8 +39,8 @@ runs:
       run: |
         npx zx $GITHUB_ACTION_PATH/analyze.mjs | tail -4 | (
           read -r l1; read -r l2; read -r l3; read -r l4;
-          echo "::set-output name=last-tag::${l1}";
-          echo "::set-output name=next-tag::${l2}";
-          echo "::set-output name=next-version::${l3}";
-          echo "::set-output name=change-log::${l4}";
+          echo "last-tag=$l1" >> $GITHUB_ENV
+          echo "next-tag=$l2" >> $GITHUB_ENV
+          echo "next-version=$l3" >> $GITHUB_ENV
+          echo "change-log=$l4" >> $GITHUB_ENV
         )
