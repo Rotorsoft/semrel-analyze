@@ -23,10 +23,10 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: install node 16
-      uses: actions/setup-node@v3
+    - name: install node
+      uses: actions/setup-node@v4
       with:
-        node-version: 16.x
+        node-version: 22
 
     - name: analyze ${{ inputs.package }}
       id: analyze

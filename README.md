@@ -6,13 +6,13 @@ GitHub action to analyze conventional commits in a mono-repo and suggest next se
 
 We use the following subset of conventional commit rules to decide when to bump the semantic version:
 
-* All rules are based on the commit short message and not the body
+- All rules are based on the commit short message and not the body
 
-* MAJOR: When the commit message (after prefix:) contains either `BREAKING CHANGE` or `BREAKING CHANGES`
+- MAJOR: When the commit message (after prefix:) contains either `BREAKING CHANGE` or `BREAKING CHANGES`
 
-* MINOR: When the commit message prefix is `feat:`
+- MINOR: When the commit message prefix is `feat:`
 
-* PATCH: When the commit message prefix is `fix:` or `perf:` or `refactor:`
+- PATCH: When the commit message prefix is `fix:` or `perf:` or `refactor:`
 
 The semantic analysis looks at **all semantic commits meeting the previous rules** that ocurred **after the latest semantic tag** for the given package
 
@@ -38,13 +38,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - id: analyze
         uses: rotorsoft/semrel-analyze@v1
         with:
-          package: 'chatbot'
-          directory: 'chatbot'
-          
+          package: "chatbot"
+          directory: "chatbot"
+
       - name: analysis
         run: |
           echo "last-tag: ${{ steps.analyze.outputs.last-tag }}"
@@ -74,17 +74,26 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - id: analyze
         uses: rotorsoft/semrel-analyze@v1
         with:
           package: "@scope/${{ matrix.workspace }}"
           directory: "workspace/${{ matrix.workspace }}"
-          
+
       - name: analysis
         run: |
           echo "last-tag: ${{ steps.analyze.outputs.last-tag }}"
           echo "next-tag: ${{ steps.analyze.outputs.next-tag }}"
           echo "next-version: ${{ steps.analyze.outputs.next-version }}"
           echo "${{ steps.analyze.outputs.change-log }}"
+```
+
+### Releasing new versions
+
+Tag the new version and push it to the remote repo
+
+```bash
+git tag -a v1.1.0 -m "Release v1.1.0"
+git push origin v1.1.0
 ```
